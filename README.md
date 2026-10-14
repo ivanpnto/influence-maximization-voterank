@@ -1,8 +1,8 @@
 # Evolution of VoteRank-based Methods for Influence Maximization on Complex Networks
 
-**Autor:** Iván Pintó Varona[cite: 1]
+**Autor:** Iván Pintó Varona
 
-Este repositorio implementa y evalúa experimentalmente variantes de algoritmos basados en VoteRank (**VoteRank**, **WVoteRank**, **IWVoteRank**) y su integración con **Random Walk with Restart (RWR)** para la maximización de influencia en redes complejas[cite: 1].
+Este repositorio implementa y evalúa experimentalmente variantes de algoritmos basados en VoteRank (**VoteRank**, **WVoteRank**, **IWVoteRank**) y su integración con **Random Walk with Restart (RWR)** para la maximización de influencia en redes complejas.
 
 ## Estructura del Repositorio
 
