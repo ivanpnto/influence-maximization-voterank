@@ -2,7 +2,7 @@
 import random
 
 def independent_cascade(G, seeds, p_attr='prob'):
-    """Simula el modelo Independent Cascade (IC) de difusión de influencia."""
+    """Simulate one run of the Independent Cascade (IC) diffusion model."""
     active = set(seeds)
     newly_active = set(seeds)
 
@@ -19,7 +19,7 @@ def independent_cascade(G, seeds, p_attr='prob'):
     return active
 
 def average_spread(G, seeds, mc=200, p_attr='prob'):
-    """Calcula el promedio de influencia alcanzada tras múltiples simulaciones Monte Carlo."""
+    """Estimate the expected influence spread as the average over Monte Carlo simulations."""
     total = 0
     for _ in range(mc):
         total += len(independent_cascade(G, seeds, p_attr))

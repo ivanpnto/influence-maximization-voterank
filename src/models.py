@@ -6,7 +6,7 @@ import numpy as np
 # ---------------------------
 
 def vote_rank(G, k):
-    """Implementación clásica de VoteRank (no ponderado)."""
+    """Classic (unweighted) VoteRank."""
     G = G.copy()
     seeds = []
     ability = {v: 1 for v in G.nodes()}
@@ -33,7 +33,7 @@ def vote_rank(G, k):
 
 
 def w_vote_rank(G, k, weight_attr='weight'):
-    """Implementación de Weighted VoteRank (WVoteRank)."""
+    """Weighted VoteRank (WVoteRank): votes are scaled by edge weights."""
     G = G.copy()
     seeds = []
     ability = {v: 1 for v in G.nodes()}
@@ -66,7 +66,7 @@ def w_vote_rank(G, k, weight_attr='weight'):
 
 
 def iw_vote_rank(G, k, weight_attr='weight'):
-    """Implementación de Improved Weighted VoteRank (IWVoteRank con 2-hop)."""
+    """Improved Weighted VoteRank (IWVoteRank): also counts 2-hop votes."""
     G = G.copy()
     seeds = []
     ability = {v: 1 for v in G.nodes()}
@@ -98,11 +98,11 @@ def iw_vote_rank(G, k, weight_attr='weight'):
         seeds.append(selected)
         ability[selected] = 0
 
-        # Descuento a 1-hop
+        # 1-hop ability discount
         for u in G.neighbors(selected):
             ability[u] = max(0, ability[u] - 1/k_avg)
 
-            # Descuento a 2-hop
+            # 2-hop ability discount
             for w in G.neighbors(u):
                 if w != selected:
                     ability[w] = max(0, ability[w] - 1/(2*k_avg))
@@ -111,11 +111,11 @@ def iw_vote_rank(G, k, weight_attr='weight'):
 
 
 # ---------------------------
-# Random Walk with Restart (RWR) & WVotedRank Integration
+# Random Walk with Restart (RWR) & WVoteRank-inspired integration
 # ---------------------------
 
 def rwr(G, seed, alpha=0.15, max_iter=100, tol=1e-6, weight_attr='weight'):
-    """Calcula Random Walk with Restart (RWR) desde un nodo semilla."""
+    """Random Walk with Restart (RWR) scores from a seed node."""
     nodes = list(G.nodes())
     index = {node: i for i, node in enumerate(nodes)}
     n = len(nodes)
@@ -154,7 +154,7 @@ def rwr(G, seed, alpha=0.15, max_iter=100, tol=1e-6, weight_attr='weight'):
 
 
 def compute_wvoterank_score(G, weight_attr='weight'):
-    """Calcula la puntuación estructural basada en WVoteRank."""
+    """Structural score inspired by WVoteRank: sqrt(degree * weighted degree)."""
     score = {}
     for v in G.nodes():
         neighbors = list(G.neighbors(v))
@@ -170,7 +170,7 @@ def compute_wvoterank_score(G, weight_attr='weight'):
 
 
 def rwr_with_wvr_optionA(G, seed, alpha=0.15):
-    """Integra RWR con la activación estructural WVotedRank (Opción A)."""
+    """Combine RWR with the WVoteRank-inspired structural score (variant A: product of both)."""
     rwr_scores = rwr(G, seed, alpha=alpha)
     wvr_scores = compute_wvoterank_score(G)
     

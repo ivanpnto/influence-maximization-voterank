@@ -20,5 +20,5 @@ dist/
 *.swp
 *.swo
 
-# Resultados temporales
+# Temporary results
 results/
